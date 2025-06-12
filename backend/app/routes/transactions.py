@@ -121,8 +121,8 @@ def create_transaction():
         
         # Auto-categorize if enabled and no category provided
         if not transaction.category_id:
-            from ..services.ml_service import MLService
-            MLService.auto_categorize_transaction(transaction)
+            from ..services.ml_service import ml_service
+            ml_service.auto_categorize_transaction(transaction)
         
         return jsonify({
             'message': 'Transaction created successfully',
