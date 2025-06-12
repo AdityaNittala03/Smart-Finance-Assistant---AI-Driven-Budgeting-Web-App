@@ -1,0 +1,361 @@
+/* Smart Finance Assistant - Main Styles */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Custom Components */
+@layer components {
+  /* Button Components */
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200;
+  }
+  
+  .btn-primary {
+    @apply btn bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 shadow-sm;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500 shadow-sm;
+  }
+  
+  .btn-success {
+    @apply btn bg-success-600 text-white hover:bg-success-700 focus:ring-success-500 shadow-sm;
+  }
+  
+  .btn-danger {
+    @apply btn bg-danger-600 text-white hover:bg-danger-700 focus:ring-danger-500 shadow-sm;
+  }
+  
+  .btn-outline {
+    @apply btn border-gray-300 text-gray-700 bg-white hover:bg-gray-50 focus:ring-primary-500;
+  }
+  
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+  
+  .btn-lg {
+    @apply px-6 py-3 text-base;
+  }
+
+  /* Input Components */
+  .input {
+    @apply block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors;
+  }
+  
+  .input-error {
+    @apply border-danger-300 focus:ring-danger-500 focus:border-danger-500;
+  }
+
+  /* Card Components */
+  .card {
+    @apply bg-white rounded-xl shadow-card border border-gray-200 overflow-hidden;
+  }
+  
+  .card-hover {
+    @apply card hover:shadow-card-hover transition-shadow duration-200;
+  }
+  
+  .card-header {
+    @apply px-6 py-4 border-b border-gray-200 bg-gray-50;
+  }
+  
+  .card-body {
+    @apply px-6 py-4;
+  }
+  
+  .card-footer {
+    @apply px-6 py-4 border-t border-gray-200 bg-gray-50;
+  }
+
+  /* Stats Cards */
+  .stat-card {
+    @apply card p-6;
+  }
+  
+  .stat-card-icon {
+    @apply w-12 h-12 rounded-lg flex items-center justify-center text-white text-xl;
+  }
+  
+  .stat-card-value {
+    @apply text-2xl font-bold text-gray-900 mt-4;
+  }
+  
+  .stat-card-label {
+    @apply text-sm font-medium text-gray-500 mt-1;
+  }
+  
+  .stat-card-change {
+    @apply text-sm font-medium mt-2 flex items-center;
+  }
+
+  /* Navigation */
+  .nav-link {
+    @apply flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors;
+  }
+  
+  .nav-link-active {
+    @apply nav-link bg-primary-100 text-primary-700;
+  }
+  
+  .nav-link-inactive {
+    @apply nav-link text-gray-600 hover:text-gray-900 hover:bg-gray-100;
+  }
+
+  /* Tables */
+  .table {
+    @apply w-full divide-y divide-gray-200;
+  }
+  
+  .table-header {
+    @apply bg-gray-50;
+  }
+  
+  .table-header-cell {
+    @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider;
+  }
+  
+  .table-body {
+    @apply bg-white divide-y divide-gray-200;
+  }
+  
+  .table-row {
+    @apply hover:bg-gray-50 transition-colors;
+  }
+  
+  .table-cell {
+    @apply px-6 py-4 whitespace-nowrap text-sm text-gray-900;
+  }
+
+  /* Modals */
+  .modal-overlay {
+    @apply fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity z-40;
+  }
+  
+  .modal-container {
+    @apply fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4;
+  }
+  
+  .modal-content {
+    @apply bg-white rounded-xl shadow-modal max-w-lg w-full;
+  }
+  
+  .modal-header {
+    @apply px-6 py-4 border-b border-gray-200;
+  }
+  
+  .modal-title {
+    @apply text-lg font-medium text-gray-900;
+  }
+  
+  .modal-body {
+    @apply px-6 py-4;
+  }
+  
+  .modal-footer {
+    @apply px-6 py-4 border-t border-gray-200 flex justify-end space-x-3;
+  }
+
+  /* Forms */
+  .form-group {
+    @apply space-y-1;
+  }
+  
+  .form-label {
+    @apply block text-sm font-medium text-gray-700;
+  }
+  
+  .form-error {
+    @apply text-sm text-danger-600;
+  }
+  
+  .form-help {
+    @apply text-sm text-gray-500;
+  }
+
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .badge-primary {
+    @apply badge bg-primary-100 text-primary-800;
+  }
+  
+  .badge-success {
+    @apply badge bg-success-100 text-success-800;
+  }
+  
+  .badge-warning {
+    @apply badge bg-warning-100 text-warning-800;
+  }
+  
+  .badge-danger {
+    @apply badge bg-danger-100 text-danger-800;
+  }
+  
+  .badge-gray {
+    @apply badge bg-gray-100 text-gray-800;
+  }
+
+  /* Loading States */
+  .loading-skeleton {
+    @apply animate-pulse bg-gray-200 rounded;
+  }
+  
+  .loading-text {
+    @apply loading-skeleton h-4;
+  }
+  
+  .loading-title {
+    @apply loading-skeleton h-6;
+  }
+  
+  .loading-circle {
+    @apply loading-skeleton rounded-full;
+  }
+
+  /* Charts Container */
+  .chart-container {
+    @apply relative w-full bg-white rounded-lg p-4;
+  }
+  
+  .chart-title {
+    @apply text-lg font-semibold text-gray-900 mb-4;
+  }
+  
+  .chart-wrapper {
+    @apply relative;
+  }
+
+  /* Utility Classes */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent;
+  }
+  
+  .bg-gradient-primary {
+    @apply bg-gradient-to-r from-primary-500 to-primary-600;
+  }
+  
+  .bg-gradient-success {
+    @apply bg-gradient-to-r from-success-500 to-success-600;
+  }
+  
+  .bg-gradient-warning {
+    @apply bg-gradient-to-r from-warning-500 to-warning-600;
+  }
+  
+  .bg-gradient-danger {
+    @apply bg-gradient-to-r from-danger-500 to-danger-600;
+  }
+}
+
+/* Custom Utilities */
+@layer utilities {
+  .scroll-smooth {
+    scroll-behavior: smooth;
+  }
+  
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+  
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Global Styles */
+html {
+  @apply scroll-smooth;
+}
+
+body {
+  @apply scrollbar-thin;
+}
+
+/* Feather Icons */
+.feather {
+  width: 1em;
+  height: 1em;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+/* D3.js Chart Styles */
+.d3-chart {
+  font-family: inherit;
+}
+
+.d3-chart .axis {
+  font-size: 12px;
+}
+
+.d3-chart .axis-label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.d3-chart .tooltip {
+  @apply bg-gray-900 text-white px-3 py-2 rounded-lg text-sm shadow-lg pointer-events-none;
+}
+
+.d3-chart .line {
+  fill: none;
+  stroke-width: 2;
+}
+
+.d3-chart .area {
+  fill-opacity: 0.3;
+}
+
+.d3-chart .bar {
+  transition: fill 0.2s ease;
+}
+
+.d3-chart .bar:hover {
+  fill-opacity: 0.8;
+}
+
+/* Animation Utilities */
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-break {
+    page-break-after: always;
+  }
+  
+  .print-avoid-break {
+    page-break-inside: avoid;
+  }
+}

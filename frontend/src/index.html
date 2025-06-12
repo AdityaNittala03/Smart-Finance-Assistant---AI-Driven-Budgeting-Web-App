@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Smart Finance Assistant - AI-driven budgeting and expense tracking">
+    <meta name="theme-color" content="#3b82f6">
+    
+    <title>Smart Finance Assistant</title>
+    
+    <!-- Preload fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/feather-icons@4.29.0/dist/feather.min.css">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <!-- PWA manifest -->
+    <link rel="manifest" href="/manifest.json">
+</head>
+<body class="bg-gray-50 font-sans antialiased">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
+        <div class="text-center">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mb-4"></div>
+            <p class="text-gray-600 font-medium">Loading Smart Finance Assistant...</p>
+        </div>
+    </div>
+
+    <!-- App Container -->
+    <div id="app" class="hidden min-h-screen">
+        <!-- Navigation -->
+        <nav id="navbar" class="bg-white shadow-sm border-b border-gray-200">
+            <!-- Navigation content will be injected here -->
+        </nav>
+
+        <!-- Main Content -->
+        <main id="main-content" class="flex-1">
+            <!-- Page content will be injected here -->
+        </main>
+
+        <!-- Modals Container -->
+        <div id="modals-container">
+            <!-- Modals will be injected here -->
+        </div>
+
+        <!-- Notifications Container -->
+        <div id="notifications-container" class="fixed top-4 right-4 z-40 space-y-2">
+            <!-- Notifications will be injected here -->
+        </div>
+    </div>
+
+    <!-- Scripts will be injected by Webpack -->
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
