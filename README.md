@@ -1,183 +1,243 @@
-# Smart Finance Assistant 🤖💰
+# 🤖 Smart Finance Assistant - AI-Driven Budgeting Web App
 
-An AI-driven budgeting web application that empowers users to manage their finances intelligently through automated transaction categorization, spending predictions, and personalized budget recommendations.
+A comprehensive personal finance management application built with Flask (Python) backend and Vanilla JavaScript frontend, featuring AI-powered transaction categorization and beautiful data visualizations.
 
-## 🚀 Features
+## ✨ Features
 
-- **AI-Powered Transaction Categorization**: Automatically categorize expenses using machine learning
-- **Predictive Analytics**: Forecast spending trends and budget requirements
-- **Interactive Dashboard**: Visualize financial data with dynamic charts and graphs
-- **Personalized Budgets**: Get custom budget recommendations based on spending patterns
-- **Smart Notifications**: Receive alerts for budget limits and unusual spending
-- **Export Reports**: Generate and export financial reports in multiple formats
-- **Secure & Private**: Bank-level security for your financial data
+### 💰 **Financial Management**
+- **Multi-currency Support**: Optimized for Indian Rupees (₹) with proper localization
+- **Transaction Tracking**: Income and expense tracking with automatic categorization
+- **Budget Management**: Set and monitor budgets across different categories
+- **Goal Setting**: Financial goal tracking with progress visualization
 
-## 🛠️ Technology Stack
+### 📊 **Analytics & Visualizations**
+- **Interactive Charts**: D3.js powered charts for spending trends and insights
+- **Monthly Trends**: 12-month view of income, expenses, and savings
+- **Category Breakdown**: Pie charts for expense categorization
+- **Budget Performance**: Visual budget vs actual spending comparison
 
-- **Backend**: Python (Flask), PostgreSQL
-- **Machine Learning**: Pandas, scikit-learn, TensorFlow
-- **Frontend**: HTML5, CSS3, JavaScript, D3.js
-- **Deployment**: Docker, CI/CD Pipeline
-- **Version Control**: Git
+### 🔐 **Security & Authentication**
+- **JWT Authentication**: Secure token-based authentication
+- **Session Management**: User session tracking and management
+- **Account Security**: Failed login attempt tracking and account lockout
+- **Password Validation**: Strong password requirements
 
-## 📋 Prerequisites
+### 🎯 **AI-Powered Features**
+- **Smart Categorization**: ML-based transaction categorization
+- **Spending Insights**: AI-generated financial insights and recommendations
+- **Predictive Analytics**: Trend analysis and future spending predictions
 
-Before running this application, make sure you have the following installed:
-
-- Python 3.9+
-- Node.js 14+
-- PostgreSQL 12+
-- Docker (optional, for containerized deployment)
-
-## 🏗️ Project Structure
-
-```
-AI_Finance_Tracker/
-├── backend/                 # Backend application
-│   ├── app/                # Flask application
-│   │   ├── models/         # Database models
-│   │   ├── routes/         # API routes
-│   │   ├── services/       # Business logic
-│   │   └── utils/          # Utility functions
-│   ├── ml_models/          # Machine learning components
-│   │   ├── training/       # Model training scripts
-│   │   ├── inference/      # Prediction services
-│   │   └── data/           # Training data
-│   └── tests/              # Backend tests
-├── frontend/               # Frontend application
-│   ├── static/            # Static assets
-│   ├── templates/         # HTML templates
-│   └── src/               # JavaScript source
-├── database/              # Database scripts
-│   ├── migrations/        # Database migrations
-│   └── seeds/             # Sample data
-├── docker/                # Docker configurations
-├── docs/                  # Documentation
-└── tests/                 # Integration tests
-```
+### 📱 **Progressive Web App**
+- **PWA Support**: Installable web app with offline capabilities
+- **Responsive Design**: Mobile-first design with Tailwind CSS
+- **Service Worker**: Caching for improved performance
 
 ## 🚀 Quick Start
 
+### Prerequisites
+- Python 3.8+
+- Node.js 16+
+- PostgreSQL 12+
+- Git
+
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/AI_Finance_Tracker.git
-cd AI_Finance_Tracker
+git clone https://github.com/AdityaNittala03/Smart-Finance-Assistant---AI-Driven-Budgeting-Web-App.git
+cd Smart-Finance-Assistant---AI-Driven-Budgeting-Web-App
 ```
 
 ### 2. Backend Setup
 ```bash
+# Navigate to backend directory
 cd backend
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install Python dependencies
 pip install -r requirements.txt
+
+# Set up PostgreSQL database
+createdb smart_finance
+createuser finance_user -P  # Set password: finance_password
+
+# Initialize database
+FLASK_ENV=development python -c "
+from app import create_app, db
+app = create_app()
+with app.app_context():
+    db.create_all()
+    print('Database initialized')
+"
+
+# Create demo user
+FLASK_ENV=development python -c "
+from app import create_app, db
+from app.models.user import User
+app = create_app()
+with app.app_context():
+    demo_user = User(
+        email='demo@example.com',
+        username='demo',
+        password='demo123',
+        first_name='Demo',
+        last_name='User',
+        is_verified=True,
+        is_active=True,
+        currency='INR'
+    )
+    db.session.add(demo_user)
+    db.session.commit()
+    print('Demo user created')
+"
+
+# Start backend server
+FLASK_ENV=development PORT=5002 python app.py
 ```
 
-### 3. Database Setup
+### 3. Frontend Setup
 ```bash
-# Create PostgreSQL database
-createdb finance_tracker
-
-# Run migrations
-python manage.py db upgrade
-```
-
-### 4. Environment Configuration
-```bash
-cp .env.example .env
-# Edit .env with your configuration
-```
-
-### 5. Start the Application
-```bash
-# Start backend
-python app.py
-
-# Start frontend (in another terminal)
+# Open new terminal and navigate to frontend directory
 cd frontend
+
+# Install Node.js dependencies
 npm install
-npm start
+
+# Start development server
+npm run start
 ```
 
-## 🔧 Configuration
+### 4. Access the Application
+- **Frontend**: http://localhost:3001
+- **Backend API**: http://localhost:5002
+- **Demo Login**: 
+  - Email: `demo@example.com`
+  - Password: `demo123`
 
-Create a `.env` file in the project root with the following variables:
+## 🏗️ Architecture
 
+### Backend (Flask + PostgreSQL)
+```
+backend/
+├── app/
+│   ├── __init__.py          # Flask app factory
+│   ├── config.py            # Configuration settings
+│   ├── models/              # SQLAlchemy models
+│   │   ├── user.py          # User model
+│   │   ├── transaction.py   # Transaction model
+│   │   ├── category.py      # Category model
+│   │   └── budget.py        # Budget model
+│   ├── routes/              # API endpoints
+│   │   ├── auth.py          # Authentication routes
+│   │   ├── transactions.py  # Transaction CRUD
+│   │   └── analytics.py     # Analytics endpoints
+│   ├── services/            # Business logic
+│   │   ├── auth_service.py  # Authentication logic
+│   │   ├── ml_service.py    # ML categorization
+│   │   └── analytics_service.py
+│   └── utils/               # Helper functions
+├── requirements.txt         # Python dependencies
+└── app.py                  # Application entry point
+```
+
+### Frontend (Vanilla JavaScript + D3.js)
+```
+frontend/
+├── src/
+│   ├── app/                 # Application core
+│   │   ├── App.js           # Main application
+│   │   └── Router.js        # Client-side routing
+│   ├── pages/               # Page components
+│   │   ├── DashboardPage.js # Main dashboard
+│   │   ├── LoginPage.js     # Authentication
+│   │   ├── TransactionsPage.js
+│   │   ├── BudgetsPage.js
+│   │   └── AnalyticsPage.js
+│   ├── services/            # API communication
+│   │   ├── APIService.js    # HTTP client
+│   │   ├── AuthService.js   # Authentication
+│   │   └── NotificationService.js
+│   ├── charts/              # D3.js visualizations
+│   │   └── ChartService.js  # Chart components
+│   ├── styles/              # CSS styles
+│   │   └── main.css         # Tailwind CSS
+│   └── index.js             # Application entry point
+├── webpack.config.js        # Build configuration
+├── tailwind.config.js       # Tailwind configuration
+└── package.json            # Node.js dependencies
+```
+
+## 💳 Currency Support
+
+The application is optimized for **Indian Rupees (₹)** with:
+- Proper Indian number formatting (₹12,34,650)
+- Realistic Indian salary and expense amounts
+- Localized date and number formats
+- Cultural context for expense categories
+
+### Sample Data Amounts:
+- **Monthly Income**: ₹6,80,000
+- **Total Balance**: ₹12,34,650
+- **Groceries**: ₹10,040
+- **Transportation**: ₹3,616
+- **Entertainment**: ₹1,020
+
+## 🔧 Development
+
+### Environment Variables
+Create a `.env` file in the backend directory:
 ```env
-# Database
-DATABASE_URL=postgresql://username:password@localhost/finance_tracker
-
-# Secret Keys
+FLASK_ENV=development
+DATABASE_URL=postgresql://finance_user:finance_password@localhost:5432/smart_finance
 SECRET_KEY=your-secret-key-here
 JWT_SECRET_KEY=your-jwt-secret-key
-
-# ML Models
-MODEL_PATH=backend/ml_models/trained_models/
-
-# Email Configuration (optional)
-MAIL_SERVER=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USERNAME=your-email@gmail.com
-MAIL_PASSWORD=your-app-password
 ```
 
-## 📊 Machine Learning Models
-
-The application uses several ML models:
-
-1. **Transaction Categorization**: Random Forest classifier for automatic expense categorization
-2. **Spending Prediction**: Time series forecasting using LSTM networks
-3. **Budget Recommendations**: Clustering and recommendation algorithms
-
-### Model Training
-```bash
-cd backend/ml_models/training
-python train_categorization_model.py
-python train_prediction_model.py
-```
-
-## 🧪 Testing
-
-Run the test suite:
-
+### Running Tests
 ```bash
 # Backend tests
 cd backend
-pytest tests/
+python -m pytest tests/
 
 # Frontend tests
 cd frontend
 npm test
-
-# Integration tests
-python -m pytest tests/integration/
 ```
 
-## 🐳 Docker Deployment
-
-Deploy using Docker Compose:
-
+### Building for Production
 ```bash
-docker-compose up -d
+# Frontend build
+cd frontend
+npm run build
+
+# Backend deployment
+cd backend
+pip install gunicorn
+gunicorn app:app
 ```
 
-This will start:
-- Backend application (Flask)
-- PostgreSQL database
-- Redis cache
-- Nginx reverse proxy
+## 📱 Features Demo
 
-## 📈 API Documentation
+### Dashboard
+- Real-time financial overview
+- Monthly trend visualization
+- Recent transactions
+- Budget alerts and insights
 
-The API documentation is available at `/api/docs` when running the application.
+### Analytics
+- Spending category breakdown
+- Year-over-year comparisons
+- Trend analysis
+- Goal tracking
 
-### Key Endpoints
+### Transactions
+- Add/edit/delete transactions
+- Bulk import from CSV
+- Smart categorization
+- Search and filtering
 
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
-- `GET /api/transactions` - Get transactions
-- `POST /api/transactions` - Add transaction
-- `POST /api/ml/categorize` - Categorize transaction
-- `GET /api/analytics/trends` - Get spending trends
+### Budgets
+- Create category-wise budgets
+- Real-time spending tracking
+- Budget vs actual comparisons
+- Alert notifications
 
 ## 🤝 Contributing
 
@@ -191,56 +251,17 @@ The API documentation is available at `/api/docs` when running the application.
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🛠️ Development Status
+## 🙏 Acknowledgments
 
-### Phase 1: Foundation & Core Backend ✅ COMPLETED
-- [x] Project setup and planning
-- [x] Comprehensive project documentation (PRD, Plan of Action)
-- [x] Database models and schema design
-- [x] Authentication system with JWT and session management
-- [x] API route structure and core endpoints
-- [x] User management and security features
-- [x] Docker containerization setup
-- [x] Development environment configuration
-
-### Phase 2: ML Integration & Intelligence ✅ COMPLETED
-- [x] Data preprocessing pipeline with feature engineering
-- [x] Transaction categorization ML model (Random Forest, Logistic Regression, Naive Bayes)
-- [x] Spending prediction algorithms with time series forecasting
-- [x] Budget recommendation engine with user clustering
-- [x] ML model training and validation framework
-- [x] Comprehensive model evaluation and monitoring
-- [x] API endpoints for ML services
-
-### Phase 3: Frontend & User Interface 📋 PLANNED
-- [ ] Frontend framework setup
-- [ ] Interactive dashboard with D3.js charts
-- [ ] Mobile-responsive design
-- [ ] Real-time data visualization
-- [ ] Export and reporting features
-
-### Phase 4: Testing, Optimization & Deployment 📋 PLANNED
-- [ ] Comprehensive test suite
-- [ ] Performance optimization
-- [ ] Security audit and fixes
-- [ ] Production deployment
-- [ ] Monitoring and alerting
+- **D3.js** for beautiful data visualizations
+- **Tailwind CSS** for responsive design
+- **Flask** for the robust backend framework
+- **PostgreSQL** for reliable data storage
 
 ## 📞 Support
 
-If you have any questions or issues, please:
-
-1. Check the [documentation](docs/)
-2. Search existing [issues](https://github.com/yourusername/AI_Finance_Tracker/issues)
-3. Create a new issue if needed
-
-## 🙏 Acknowledgments
-
-- Built with ❤️ using Python and Flask
-- Machine learning powered by scikit-learn and TensorFlow
-- Visualizations created with D3.js
-- Inspired by modern personal finance management needs
+For support, email your-email@example.com or create an issue on GitHub.
 
 ---
 
-**Made with 💻 by [Your Name]**
+**Built with ❤️ for better financial management**
