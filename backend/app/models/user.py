@@ -31,7 +31,7 @@ class User(UserMixin, db.Model):
     password_reset_expires = db.Column(db.DateTime)
     
     # Preferences
-    currency = db.Column(db.String(3), default='USD', nullable=False)
+    currency = db.Column(db.String(3), default='INR', nullable=False)
     timezone = db.Column(db.String(50), default='UTC', nullable=False)
     notification_preferences = db.Column(db.JSON, default={
         'email_notifications': True,

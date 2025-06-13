@@ -25,6 +25,16 @@ export class ChartService {
         const container = d3.select(`#${containerId}`);
         container.selectAll('*').remove();
 
+        // Validate data
+        if (!data || !Array.isArray(data) || data.length === 0) {
+            container.append('div')
+                .style('text-align', 'center')
+                .style('padding', '50px')
+                .style('color', '#6b7280')
+                .text('No data available');
+            return;
+        }
+
         const margin = { top: 20, right: 30, bottom: 40, left: 60 };
         const width = container.node().getBoundingClientRect().width - margin.left - margin.right;
         const height = 300 - margin.top - margin.bottom;
@@ -41,9 +51,23 @@ export class ChartService {
         const parseDate = d3.timeParse('%b %Y');
         const formatDate = d3.timeFormat('%b');
         
-        data.forEach(d => {
-            d.date = parseDate(d.month);
+        // Filter out invalid data and parse dates safely
+        const validData = data.filter(d => d && d.month && d.income !== undefined && d.expenses !== undefined);
+        
+        validData.forEach(d => {
+            try {
+                d.date = parseDate(d.month + ' 2024'); // Add year for proper parsing
+                if (!d.date) {
+                    // Fallback if parsing fails
+                    d.date = new Date();
+                }
+            } catch (e) {
+                d.date = new Date();
+            }
         });
+        
+        // Use validData instead of data
+        data = validData;
 
         // Scales
         const xScale = d3.scaleTime()
@@ -73,7 +97,7 @@ export class ChartService {
             .attr('class', 'axis');
 
         g.append('g')
-            .call(d3.axisLeft(yScale).tickFormat(d => `$${d / 1000}K`))
+            .call(d3.axisLeft(yScale).tickFormat(d => `₹${d / 1000}K`))
             .attr('class', 'axis');
 
         // Add grid lines
@@ -178,6 +202,16 @@ export class ChartService {
         const container = d3.select(`#${containerId}`);
         container.selectAll('*').remove();
 
+        // Validate data
+        if (!data || !Array.isArray(data) || data.length === 0) {
+            container.append('div')
+                .style('text-align', 'center')
+                .style('padding', '50px')
+                .style('color', '#6b7280')
+                .text('No data available');
+            return;
+        }
+
         const width = container.node().getBoundingClientRect().width;
         const height = 300;
         const radius = Math.min(width, height) / 2 - 40;
@@ -271,6 +305,16 @@ export class ChartService {
         const container = d3.select(`#${containerId}`);
         container.selectAll('*').remove();
 
+        // Validate data
+        if (!data || !Array.isArray(data) || data.length === 0) {
+            container.append('div')
+                .style('text-align', 'center')
+                .style('padding', '50px')
+                .style('color', '#6b7280')
+                .text('No data available');
+            return;
+        }
+
         const margin = { top: 20, right: 30, bottom: 60, left: 60 };
         const width = container.node().getBoundingClientRect().width - margin.left - margin.right;
         const height = 300 - margin.top - margin.bottom;
@@ -306,7 +350,7 @@ export class ChartService {
             .attr('transform', 'rotate(-45)');
 
         g.append('g')
-            .call(d3.axisLeft(yScale).tickFormat(d => `$${d}`))
+            .call(d3.axisLeft(yScale).tickFormat(d => `₹${d}`))
             .attr('class', 'axis');
 
         // Add grid lines
@@ -379,6 +423,16 @@ export class ChartService {
         const container = d3.select(`#${containerId}`);
         container.selectAll('*').remove();
 
+        // Validate data
+        if (!data || !Array.isArray(data) || data.length === 0) {
+            container.append('div')
+                .style('text-align', 'center')
+                .style('padding', '50px')
+                .style('color', '#6b7280')
+                .text('No data available');
+            return;
+        }
+
         const margin = { top: 20, right: 30, bottom: 40, left: 60 };
         const width = container.node().getBoundingClientRect().width - margin.left - margin.right;
         const height = 300 - margin.top - margin.bottom;
@@ -395,9 +449,22 @@ export class ChartService {
         const parseDate = d3.timeParse('%b %Y');
         const formatDate = d3.timeFormat('%b');
         
-        data.forEach(d => {
-            d.date = parseDate(d.month);
+        // Filter out invalid data and parse dates safely
+        const validData = data.filter(d => d && d.month && d.expenses !== undefined);
+        
+        validData.forEach(d => {
+            try {
+                d.date = parseDate(d.month + ' 2024'); // Add year for proper parsing
+                if (!d.date) {
+                    d.date = new Date();
+                }
+            } catch (e) {
+                d.date = new Date();
+            }
         });
+        
+        // Use validData instead of data
+        data = validData;
 
         // Scales
         const xScale = d3.scaleTime()
@@ -429,7 +496,7 @@ export class ChartService {
             .attr('class', 'axis');
 
         g.append('g')
-            .call(d3.axisLeft(yScale).tickFormat(d => `$${d / 1000}K`))
+            .call(d3.axisLeft(yScale).tickFormat(d => `₹${d / 1000}K`))
             .attr('class', 'axis');
 
         // Add income area
@@ -539,17 +606,28 @@ export class ChartService {
                 const i = bisect(data, x0, 1);
                 const d0 = data[i - 1];
                 const d1 = data[i];
+                
+                // Safety check for undefined data points
+                if (!d0 || !d1 || !d0.date || !d1.date) {
+                    return;
+                }
+                
                 const d = x0 - d0.date > d1.date - x0 ? d1 : d0;
 
                 tooltip.transition()
                     .duration(200)
                     .style('opacity', 0.9);
 
+                // Safety check for data properties
+                const income = d.income || 0;
+                const expenses = d.expenses || 0;
+                const savings = d.savings || (income - expenses);
+                
                 tooltip.html(`
-                    <strong>${d.month}</strong><br/>
-                    Income: $${d.income.toLocaleString()}<br/>
-                    Expenses: $${d.expenses.toLocaleString()}<br/>
-                    Savings: $${d.savings.toLocaleString()}
+                    <strong>${d.month || 'Unknown'}</strong><br/>
+                    Income: ₹${income.toLocaleString()}<br/>
+                    Expenses: ₹${expenses.toLocaleString()}<br/>
+                    Savings: ₹${savings.toLocaleString()}
                 `)
                 .style('left', (event.pageX + 10) + 'px')
                 .style('top', (event.pageY - 28) + 'px');

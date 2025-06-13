@@ -15,7 +15,7 @@ export class APIService {
         if (process.env.NODE_ENV === 'production') {
             return window.location.origin + '/api';
         } else {
-            return 'http://localhost:5000/api';
+            return 'http://localhost:5002/api/v1';
         }
     }
 

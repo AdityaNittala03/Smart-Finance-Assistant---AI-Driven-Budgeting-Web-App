@@ -20,11 +20,19 @@ migrate = Migrate()
 login_manager = LoginManager()
 mail = Mail()
 jwt = JWTManager()
-redis_client = Redis.from_url(os.getenv('REDIS_URL', 'redis://localhost:6379/0'))
-limiter = Limiter(
-    key_func=get_remote_address,
-    storage_uri=os.getenv('REDIS_URL', 'redis://localhost:6379/0')
-)
+# Create a dummy limiter class for development
+class DummyLimiter:
+    def limit(self, *args, **kwargs):
+        def decorator(f):
+            return f
+        return decorator
+    
+    def init_app(self, app):
+        pass
+
+# Temporarily disable Redis and rate limiting for development
+redis_client = None
+limiter = DummyLimiter()
 
 
 def create_app(config_name='default'):
@@ -40,10 +48,20 @@ def create_app(config_name='default'):
     login_manager.init_app(app)
     mail.init_app(app)
     jwt.init_app(app)
-    limiter.init_app(app)
+    limiter.init_app(app)  # Using dummy limiter
     
-    # Configure CORS
-    CORS(app, origins=os.getenv('FRONTEND_URL', 'http://localhost:3000'))
+    # Configure CORS - Allow specific origins for development
+    if os.getenv('FLASK_ENV') == 'development':
+        CORS(app, 
+             origins=['http://localhost:3000', 'http://127.0.0.1:3000', 'http://0.0.0.0:3000', 'http://localhost:3001', 'http://127.0.0.1:3001'],
+             allow_headers=['Content-Type', 'Authorization', 'Accept', 'X-Requested-With'],
+             methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD'],
+             supports_credentials=True)
+    else:
+        CORS(app, 
+             origins=[os.getenv('FRONTEND_URL', 'http://localhost:3000')],
+             allow_headers=['Content-Type', 'Authorization', 'Accept'],
+             methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'])
     
     # Configure login manager
     login_manager.login_view = 'auth.login'

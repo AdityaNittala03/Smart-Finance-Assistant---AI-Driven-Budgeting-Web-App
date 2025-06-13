@@ -37,7 +37,7 @@ class Category(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
     
     # Relationships
-    transactions = db.relationship('Transaction', backref='category', lazy='dynamic')
+    transactions = db.relationship('Transaction', foreign_keys='Transaction.category_id', backref='category', lazy='dynamic')
     budgets = db.relationship('Budget', backref='category', lazy='dynamic')
     
     # Constraints

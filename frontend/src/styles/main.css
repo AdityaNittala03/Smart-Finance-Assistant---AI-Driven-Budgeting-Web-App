@@ -1,7 +1,19 @@
 /* Smart Finance Assistant - Main Styles */
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Force some basic styles to test */
+body {
+  font-family: Inter, system-ui, sans-serif;
+}
+
+/* Force Tailwind to generate these classes */
+.test-classes {
+  @apply bg-gray-50 text-gray-900 p-4 rounded-lg shadow-md;
+  @apply flex items-center justify-center;
+  @apply font-sans antialiased;
+}
 
 /* Custom Components */
 @layer components {

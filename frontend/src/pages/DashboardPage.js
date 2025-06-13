@@ -38,31 +38,37 @@ export class DashboardPage {
         // In a real implementation, these would be actual API calls
         this.dashboardData = {
             stats: {
-                totalBalance: 15420.50,
-                monthlyIncome: 8500.00,
-                monthlyExpenses: 3240.75,
+                totalBalance: 1234650.00,
+                monthlyIncome: 680000.00,
+                monthlyExpenses: 259260.00,
                 savingsRate: 61.9
             },
             recentTransactions: [
-                { id: 1, description: 'Grocery Store', amount: -125.50, category: 'Food', date: '2024-12-13', type: 'expense' },
-                { id: 2, description: 'Salary Deposit', amount: 4250.00, category: 'Income', date: '2024-12-12', type: 'income' },
-                { id: 3, description: 'Gas Station', amount: -45.20, category: 'Transportation', date: '2024-12-11', type: 'expense' },
-                { id: 4, description: 'Online Shopping', amount: -89.99, category: 'Shopping', date: '2024-12-10', type: 'expense' },
-                { id: 5, description: 'Coffee Shop', amount: -12.75, category: 'Food', date: '2024-12-10', type: 'expense' }
+                { id: 1, description: 'Grocery Store', amount: -10040, category: 'Food', date: '2024-12-13', type: 'expense' },
+                { id: 2, description: 'Salary Deposit', amount: 340000, category: 'Income', date: '2024-12-12', type: 'income' },
+                { id: 3, description: 'Petrol Pump', amount: -3616, category: 'Transportation', date: '2024-12-11', type: 'expense' },
+                { id: 4, description: 'Online Shopping', amount: -7199, category: 'Shopping', date: '2024-12-10', type: 'expense' },
+                { id: 5, description: 'Cafe Coffee Day', amount: -1020, category: 'Food', date: '2024-12-10', type: 'expense' }
             ],
             budgets: [
-                { category: 'Food', spent: 485.50, limit: 800, percentage: 60.7 },
-                { category: 'Transportation', spent: 320.40, limit: 400, percentage: 80.1 },
-                { category: 'Entertainment', spent: 150.25, limit: 300, percentage: 50.1 },
-                { category: 'Shopping', spent: 420.75, limit: 500, percentage: 84.2 }
+                { category: 'Food', spent: 38840, limit: 64000, percentage: 60.7 },
+                { category: 'Transportation', spent: 25632, limit: 32000, percentage: 80.1 },
+                { category: 'Entertainment', spent: 12020, limit: 24000, percentage: 50.1 },
+                { category: 'Shopping', spent: 33660, limit: 40000, percentage: 84.2 }
             ],
             monthlyTrend: [
-                { month: 'Jul', income: 8200, expenses: 3100 },
-                { month: 'Aug', income: 8350, expenses: 3250 },
-                { month: 'Sep', income: 8400, expenses: 3180 },
-                { month: 'Oct', income: 8500, expenses: 3300 },
-                { month: 'Nov', income: 8600, expenses: 3150 },
-                { month: 'Dec', income: 8500, expenses: 3241 }
+                { month: 'Jan', income: 620000, expenses: 285000, savings: 335000 },
+                { month: 'Feb', income: 635000, expenses: 270000, savings: 365000 },
+                { month: 'Mar', income: 650000, expenses: 295000, savings: 355000 },
+                { month: 'Apr', income: 645000, expenses: 260000, savings: 385000 },
+                { month: 'May', income: 660000, expenses: 275000, savings: 385000 },
+                { month: 'Jun', income: 655000, expenses: 250000, savings: 405000 },
+                { month: 'Jul', income: 656000, expenses: 248000, savings: 408000 },
+                { month: 'Aug', income: 668000, expenses: 260000, savings: 408000 },
+                { month: 'Sep', income: 672000, expenses: 254400, savings: 417600 },
+                { month: 'Oct', income: 680000, expenses: 264000, savings: 416000 },
+                { month: 'Nov', income: 688000, expenses: 252000, savings: 436000 },
+                { month: 'Dec', income: 680000, expenses: 259288, savings: 420712 }
             ],
             insights: [
                 {
@@ -80,7 +86,7 @@ export class DashboardPage {
                 {
                     type: 'info',
                     title: 'Budget Recommendation',
-                    message: 'Based on your spending patterns, consider increasing your food budget by $100.',
+                    message: 'Based on your spending patterns, consider increasing your food budget by ₹8000.',
                     action: 'Adjust budget'
                 }
             ]
@@ -469,9 +475,9 @@ export class DashboardPage {
 
     // Utility methods
     formatCurrency(amount) {
-        return new Intl.NumberFormat('en-US', {
+        return new Intl.NumberFormat('en-IN', {
             style: 'currency',
-            currency: 'USD',
+            currency: 'INR',
             minimumFractionDigits: 2
         }).format(Math.abs(amount));
     }

@@ -41,6 +41,8 @@ def log_request_info():
 @app.after_request
 def after_request(response):
     """Log response information and add security headers"""
+    from flask import request
+    
     # Log response status
     if app.config.get('DEBUG'):
         app.logger.debug(f"Response: {response.status_code}")
@@ -52,8 +54,17 @@ def after_request(response):
     
     # Add CORS headers if not already added by Flask-CORS
     if not response.headers.get('Access-Control-Allow-Origin'):
-        frontend_url = app.config.get('FRONTEND_URL', 'http://localhost:3000')
-        response.headers['Access-Control-Allow-Origin'] = frontend_url
+        # Allow all origins in development, specific origin in production
+        if os.getenv('FLASK_ENV') == 'development':
+            origin = request.headers.get('Origin')
+            if origin and ('localhost:3000' in origin or '127.0.0.1:3000' in origin or 'localhost:3001' in origin or '127.0.0.1:3001' in origin):
+                response.headers['Access-Control-Allow-Origin'] = origin
+                response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Accept, X-Requested-With'
+                response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS, HEAD'
+                response.headers['Access-Control-Allow-Credentials'] = 'true'
+        else:
+            frontend_url = app.config.get('FRONTEND_URL', 'http://localhost:3000')
+            response.headers['Access-Control-Allow-Origin'] = frontend_url
     
     return response
 

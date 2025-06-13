@@ -45,11 +45,11 @@ export class AnalyticsPage {
         // Simulate API call - replace with actual API service call
         this.analyticsData = {
             overview: {
-                totalSpending: 12450.75,
-                totalIncome: 24800.00,
-                netSavings: 12349.25,
+                totalSpending: 996060,
+                totalIncome: 1984000,
+                netSavings: 987940,
                 savingsRate: 49.8,
-                avgMonthlySpending: 2075.13,
+                avgMonthlySpending: 166010,
                 topCategory: 'Food',
                 spendingTrend: 'increasing',
                 budgetAdherence: 78.5
@@ -888,9 +888,9 @@ export class AnalyticsPage {
 
     // Utility methods
     formatCurrency(amount) {
-        return new Intl.NumberFormat('en-US', {
+        return new Intl.NumberFormat('en-IN', {
             style: 'currency',
-            currency: 'USD',
+            currency: 'INR',
             minimumFractionDigits: 0,
             maximumFractionDigits: 0
         }).format(amount);

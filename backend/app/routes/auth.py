@@ -57,7 +57,7 @@ def register():
             last_name=data['last_name'],
             phone=data.get('phone'),
             date_of_birth=data.get('date_of_birth'),
-            currency=data.get('currency', 'USD'),
+            currency=data.get('currency', 'INR'),
             timezone=data.get('timezone', 'UTC')
         )
         

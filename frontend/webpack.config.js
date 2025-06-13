@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = (env, argv) => {
     const isDevelopment = argv.mode === 'development';
@@ -29,7 +30,8 @@ module.exports = (env, argv) => {
                     test: /\.css$/,
                     use: [
                         isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
-                        'css-loader'
+                        'css-loader',
+                        'postcss-loader'
                     ]
                 },
                 {
@@ -62,6 +64,12 @@ module.exports = (env, argv) => {
                 filename: 'index.html',
                 inject: 'body'
             }),
+            new CopyWebpackPlugin({
+                patterns: [
+                    { from: 'src/manifest.json', to: 'manifest.json' },
+                    { from: 'src/service-worker.js', to: 'service-worker.js' }
+                ]
+            }),
             ...(isDevelopment ? [] : [
                 new MiniCssExtractPlugin({
                     filename: '[name].[contenthash].css'
@@ -72,12 +80,12 @@ module.exports = (env, argv) => {
             static: {
                 directory: path.join(__dirname, 'dist')
             },
-            port: 3000,
+            port: 3001,
             hot: true,
             historyApiFallback: true,
             proxy: {
                 '/api': {
-                    target: 'http://localhost:5000',
+                    target: 'http://localhost:5002',
                     changeOrigin: true
                 }
             }
